@@ -4,9 +4,9 @@ let x = "";
 
 let y = "";
 
-let eq;
-
 let op = "";
+
+const display = document.querySelector("#display");
 
 function add(x,y){
     return x + y;
@@ -24,7 +24,13 @@ function divide(x,y){
     return x/y;
 }
 
+//add more functionality this is the basic jist though
 function equal(){
+    display.textContent = x;
+
+    x = "";
+    y = "";
+    op = "";
 }
 
 function opreate(x,operator,y){
@@ -46,7 +52,7 @@ function opreate(x,operator,y){
 }
 //add logic to update y only after a opreator is pressed if three opreators are press like 12 + 6 - 2; them 12 + 6 = 18 and update x then - 2 will update y;
 function udpateX(){
-    let num = document.addEventListener("numbers");
+    let num = document.addEventListener(".numbers");
     num.addEventListener("click", (e) => {
         //need to make sure that we only append 0 after a number for example 005 should just be 5 but 10 is valid
         if(e.target.matches("#0")){
@@ -82,8 +88,8 @@ function udpateX(){
 }
 //add logic to update y only after a opreator is pressed if three opreators are press like 12 + 6 - 2; them 12 + 6 = 18 and update x then - 2 will update y;
 function updateY(){
-    let opreators = document.addEventListener("opreators");
-    let num = document.addEventListener("numbers");
+    const opreators = document.addEventListener("opreators");
+    const num = document.addEventListener(".numbers");
     num.addEventListener("click", (e) => {
         //need to make sure that we only append 0 after a number for example 005 should just be 5 but 10 is valid
         if(e.target.matches("#0")){
@@ -118,11 +124,21 @@ function updateY(){
     });
 }
 
+//when a number is pressed update x the display to reflect that number when a opreator is pressed update the display to reflect y
+function updateDisplay(){
+    const opreator = document.querySelector(".opreator");
+    const num = document.querySelector(".numbers");
+    num.addEventListener("click", () => {
+        if(){
+
+        }
+    });
+}
+
 function main(){
-        
         udpateX();
-        
         updateY();
+        updateDisplay();
 }
 
 main();
