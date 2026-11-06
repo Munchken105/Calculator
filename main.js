@@ -56,6 +56,9 @@ function udpateX(){
     num.addEventListener("click", (e) => {
         //need to make sure that we only append 0 after a number for example 005 should just be 5 but 10 is valid
         if(e.target.matches("#0")){
+            if (x !== ""){
+                x += 0
+            }
         }
         else if(e.target.matches("#1")){
             x +=  "1";
@@ -93,6 +96,9 @@ function updateY(){
     num.addEventListener("click", (e) => {
         //need to make sure that we only append 0 after a number for example 005 should just be 5 but 10 is valid
         if(e.target.matches("#0")){
+            if(y !== ""){
+                y += "0";
+            }
         }
         else if(e.target.matches("#1")){
             y +=  "1";
