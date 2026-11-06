@@ -6,6 +6,8 @@ let y = "";
 
 let op = "";
 
+let opCounter = 0;
+
 const display = document.querySelector("#display");
 
 function add(x,y){
@@ -31,31 +33,34 @@ function equal(){
     x = "";
     y = "";
     op = "";
+    opCounter = 0;
 }
 
 function opreate(x,operator,y){
     if(operator === "+"){
+        opCounter++;
         return add(x,y);
     }
     else if(operator === "-"){
+        opCounter++;
         return subtract(x,y);
     }
     else if(operator === "*"){
+        opCounter++;
         return multiply(x,y);
     }
     else if(operator === "/"){
+        opCounter++;
         return divide(x,y);
     }
     else if(operator === "="){
+        opCounter++;
         return equal();
     }
 }
-//add logic to update y only after a opreator is pressed if three opreators are press like 12 + 6 - 2; them 12 + 6 = 18 and update x then - 2 will update y;
-function udpateX(){
-    let num = document.addEventListener(".numbers");
-    num.addEventListener("click", (e) => {
-        //need to make sure that we only append 0 after a number for example 005 should just be 5 but 10 is valid
-        if(e.target.matches("#0")){
+
+function updateX(e){
+    if(e.target.matches("#0")){
             if (x !== ""){
                 x += 0
             }
@@ -87,15 +92,11 @@ function udpateX(){
         else if(e.target.matches("#9")){
             x += "9";
         }
-    });
 }
+
 //add logic to update y only after a opreator is pressed if three opreators are press like 12 + 6 - 2; them 12 + 6 = 18 and update x then - 2 will update y;
-function updateY(){
-    const opreators = document.addEventListener("opreators");
-    const num = document.addEventListener(".numbers");
-    num.addEventListener("click", (e) => {
-        //need to make sure that we only append 0 after a number for example 005 should just be 5 but 10 is valid
-        if(e.target.matches("#0")){
+function updateY(e){
+            if(e.target.matches("#0")){
             if(y !== ""){
                 y += "0";
             }
@@ -127,6 +128,20 @@ function updateY(){
         else if(e.target.matches("#9")){
             y += "9";
         }
+}
+
+
+//add logic to update y only after a opreator is pressed if three opreators are press like 12 + 6 - 2; them 12 + 6 = 18 and update x then - 2 will update y;
+// maybe i can combine the functions have a if statment in the event listner if the op counter is 0 than its x and if its 1 its y than if opCounter = 2 than we do the orpreation and store the value in x so we can use y next
+function udpateNums(){
+    let num = document.addEventListener(".numbers");
+    num.addEventListener("click", (e) => {
+        if(opCounter === 0){
+            updateX(e)
+        }
+        else if(opCounter >= 1){
+            updateY(e);
+        }
     });
 }
 
@@ -134,17 +149,20 @@ function updateY(){
 function updateDisplay(){
     const opreator = document.querySelector(".opreator");
     const num = document.querySelector(".numbers");
+    const display = document.querySelector("#display")
     num.addEventListener("click", () => {
-        if(){
-
+        if(opCounter === 0){
+            display.textContent = x;
+        }
+        else{
+            display.textContent = y;
         }
     });
 }
 
 function main(){
-        udpateX();
-        updateY();
         updateDisplay();
+        udpateNums();
 }
 
 main();
