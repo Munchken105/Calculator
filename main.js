@@ -37,133 +37,103 @@ function equal(){
 }
 
 function opreate(x,operator,y){
+    let retval;
     if(operator === "+"){
-        opCounter++;
-        return add(x,y);
+        retval = add(x,y);
     }
     else if(operator === "-"){
-        opCounter++;
-        return subtract(x,y);
+        retval = subtract(x,y);
     }
     else if(operator === "*"){
-        opCounter++;
-        return multiply(x,y);
+        retval = multiply(x,y);
     }
     else if(operator === "/"){
-        opCounter++;
-        return divide(x,y);
+        retval = divide(x,y);
     }
-    else if(operator === "="){
-        opCounter++;
-        return equal();
-    }
+    return retval;
 }
 
-function updateX(e){
-    if(e.target.matches("#0")){
-            if (x !== ""){
-                x += 0
-            }
-        }
-        else if(e.target.matches("#1")){
-            x +=  "1";
-        }
-        else if(e.target.matches("#2")){
-            x += "2";
-        }
-        else if(e.target.mathces("#3")){
-            x += "3";
-        }
-        else if(e.target.mathces("#4")){
-            x += "4";
-        }
-        else if(e.target.matches("#5")){
-            x += "5";
-        }
-        else if(e.target.matches("#6")){
-            x += "6";
-        }
-        else if(e.target.matches("#7")){
-            x += "7";
-        }
-        else if(e.target.matches("#8")){
-            x += "8";
-        }
-        else if(e.target.matches("#9")){
-            x += "9";
-        }
-}
 
-//add logic to update y only after a opreator is pressed if three opreators are press like 12 + 6 - 2; them 12 + 6 = 18 and update x then - 2 will update y;
-function updateY(e){
-            if(e.target.matches("#0")){
-            if(y !== ""){
-                y += "0";
-            }
-        }
-        else if(e.target.matches("#1")){
-            y +=  "1";
-        }
-        else if(e.target.matches("#2")){
-            y += "2";
-        }
-        else if(e.target.mathces("#3")){
-            y += "3";
-        }
-        else if(e.target.mathces("#4")){
-            y += "4";
-        }
-        else if(e.target.matches("#5")){
-            y += "5";
-        }
-        else if(e.target.matches("#6")){
-            y += "6";
-        }
-        else if(e.target.matches("#7")){
-            y += "7";
-        }
-        else if(e.target.matches("#8")){
-            y += "8";
-        }
-        else if(e.target.matches("#9")){
-            y += "9";
-        }
-}
 
 
 //add logic to update y only after a opreator is pressed if three opreators are press like 12 + 6 - 2; them 12 + 6 = 18 and update x then - 2 will update y;
 // maybe i can combine the functions have a if statment in the event listner if the op counter is 0 than its x and if its 1 its y than if opCounter = 2 than we do the orpreation and store the value in x so we can use y next
 function udpateNums(){
-    let num = document.addEventListener(".numbers");
+    let num = document.querySelector(".numbers");
     num.addEventListener("click", (e) => {
+        const digit = e.target.id;
+
+        if(!/^[0-9]$/.test(digit)){
+            return;
+        }
+
         if(opCounter === 0){
-            updateX(e)
+            if(digit !== "0" || x !== ""){
+                x += digit;
+            }
         }
-        else if(opCounter >= 1){
-            updateY(e);
+        else{
+            if(digit !== "0" || y !== ""){
+                y += digit;
+            }
         }
+        updateDisplay();
     });
 }
 
-//when a number is pressed update x the display to reflect that number when a opreator is pressed update the display to reflect y
+//when a number is pressed update x the display to reflect that number when a opreator is pressed update the display to reflect y; temp for testing
 function updateDisplay(){
-    const opreator = document.querySelector(".opreator");
-    const num = document.querySelector(".numbers");
-    const display = document.querySelector("#display")
-    num.addEventListener("click", () => {
+    const display = document.querySelector("#display");
         if(opCounter === 0){
+            display.textContent = x;
+    }
+    else{
+        display.textContent = y;
+    }
+}
+
+function updateOperator(){
+    const operators = document.querySelector(".operators");
+
+    operators.addEventListener("click", (e) => {
+        if(!e.target.classList.contains("operator")){
+            return;
+        }
+
+        const selectedOpreator = e.target.id;
+
+        if(selectedOpreator === "="){
+            if(op !== "" && y !== ""){
+                x = String(opreate(Number(x),op,Number(y)));
+            }
+            equal();
+            return;
+        }
+        else if(opCounter === 0){
+            op = selectedOpreator
+            opCounter = 1;
+        }
+
+        else if(opCounter === 1 && y !== ""){
+            x = String(opreate(Number(x),op,Number(y)));
+            y = "";
+            op = selectedOpreator;
+            opCounter = 1;
             display.textContent = x;
         }
         else{
-            display.textContent = y;
+            op = selectedOpreator;
         }
     });
 }
 
 function main(){
-        updateDisplay();
-        udpateNums();
+    udpateNums();
+    updateOperator();
 }
 
 main();
+
+
+
 
