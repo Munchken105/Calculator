@@ -92,6 +92,32 @@ function updateDisplay(){
     }
 }
 
+function clearInput(){
+    if(opCounter === 1){
+        y = "";
+    }
+    else if (opCounter == 0){
+        x = "";
+    }
+    display.textContent = 0;
+}
+
+function clearAll(){
+    x = "";
+    y = "";
+    op = "";
+    opCounter = 0;
+    display.textContent = "0";
+}
+
+function clearInputUpdate(){
+    const clearBtn = document.querySelector("#clear");
+    const clearAllBtn = document.querySelector("#clear-all");
+    
+    clearBtn.addEventListener("click",clearInput);
+    clearAllBtn.addEventListener("click",clearAll);
+}
+
 function updateOperator(){
     const operators = document.querySelector(".operators");
 
@@ -130,6 +156,7 @@ function updateOperator(){
 function main(){
     udpateNums();
     updateOperator();
+    clearInputUpdate();
 }
 
 main();
