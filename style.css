@@ -40,6 +40,10 @@ body{
 .display{
     background-color: #F5F5F5;
 }
+
+.display span{
+    font-size: 36px;
+}
 button{
     border: none;
     background-color: #111111;
