@@ -54,7 +54,7 @@ function opreate(x,operator,y){
     else if(operator === "/"){
         retval = divide(x,y);
     }
-    return retval;
+    return Number(retval.toFixed(2));
 }
 
 
@@ -120,10 +120,10 @@ function clearAll(){
 }
 
 function decimalPt(){
-    if (opCounter === 0 && !y.includes(".")){
+    if (opCounter === 0 && !x.includes(".")){
         x = x === "" ? "0." : x + ".";
     }
-    else if(opCounter === 1 && !x.includes(".")){
+    else if(opCounter === 1 && !y.includes(".")){
         y = y === "" ? "0." : y + ".";
     }
     updateDisplay();
