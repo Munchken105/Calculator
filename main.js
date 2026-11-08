@@ -10,6 +10,12 @@ let opCounter = 0;
 
 const display = document.querySelector("#display");
 
+let decimalCounterX = 0;
+
+let decimalCounterY = 0;
+
+
+
 function add(x,y){
     return x + y;
 }
@@ -95,9 +101,11 @@ function updateDisplay(){
 function clearInput(){
     if(opCounter === 1){
         y = "";
+        decimalCounterY = 0;
     }
     else if (opCounter == 0){
         x = "";
+        decimalCounterX = 0;
     }
     display.textContent = 0;
 }
@@ -107,13 +115,25 @@ function clearAll(){
     y = "";
     op = "";
     opCounter = 0;
+    decimalCounterX = 0;
+    decimalCounterY = 0;
     display.textContent = "0";
+}
+
+function decimalPt(){
+    if(opCounter === 1 && decimalCounterY === 0){
+        y += ".";
+        decimalCounterY = 1;
+    }
+    else if (opCounter === 0 && decimalCounterX === 0){
+        x += ".";
+        decimalCounterX = 1;
+    }
 }
 
 function clearInputUpdate(){
     const clearBtn = document.querySelector("#clear");
     const clearAllBtn = document.querySelector("#clear-all");
-    
     clearBtn.addEventListener("click",clearInput);
     clearAllBtn.addEventListener("click",clearAll);
 }
