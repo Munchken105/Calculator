@@ -34,8 +34,8 @@ function divide(x,y){
 function equal(){
     display.textContent = x;
 
-    x = "";
-    y = "";
+    x = "0";
+    y = "0";
     op = "";
     opCounter = 0;
 }
@@ -54,7 +54,14 @@ function opreate(x,operator,y){
     else if(operator === "/"){
         retval = divide(x,y);
     }
-    return Number(retval.toFixed(2));
+
+    if(retval === "Error"){
+        return "Error";
+    }
+
+    else{
+        return Number(retval.toFixed(2));
+    }
 }
 
 
@@ -88,6 +95,32 @@ function udpateNums(){
             }
         }
         updateDisplay();
+    });
+}
+
+function keyboardSupport(){
+    document.addEventListener("keydown", (e) => {
+        const key = e.key;
+        if(/^[0-9]$/.test(key)){
+            document.getElementById(key).click();
+        }
+        else if(["+","-","*","/"].includes(key)){
+            document.getElementById(key).click();
+        }
+        else if (key === "Enter" || key === "="){
+            e.preventDefault();
+            document.getElementById("=").click();
+        }
+        else if (key === "Backspace"){
+            e.preventDefault();
+            document.getElementById("clear").click();
+        }
+        else if(key === "Escape"){
+            document.getElementById("clear-all").click();
+        }
+        else if(key === "."){
+            document.getElementById("decimal").click();
+        }
     });
 }
 
@@ -154,6 +187,12 @@ function updateOperator(){
             if(op !== "" && y !== ""){
                 x = String(opreate(Number(x),op,Number(y)));
             }
+
+            if(x === "Error"){
+                clearAll();
+                display.textContent = "Error";
+                return;
+            }
             equal();
             return;
         }
@@ -185,6 +224,7 @@ function main(){
     updateOperator();
     clearInputUpdate();
     decimalUpdate();
+    keyboardSupport();
 }
 
 main();
