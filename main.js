@@ -10,11 +10,6 @@ let opCounter = 0;
 
 const display = document.querySelector("#display");
 
-let decimalCounterX = 0;
-
-let decimalCounterY = 0;
-
-
 
 function add(x,y){
     return x + y;
@@ -29,10 +24,13 @@ function multiply(x,y){
 }
 
 function divide(x,y){
+    if(y === 0){
+        return "Error";
+    }
     return x/y;
 }
 
-//add more functionality this is the basic jist though
+
 function equal(){
     display.textContent = x;
 
@@ -74,12 +72,18 @@ function udpateNums(){
         }
 
         if(opCounter === 0){
-            if(digit !== "0" || x !== ""){
+            if (x === "0"){
+                x = digit;
+            }
+            else{
                 x += digit;
             }
         }
         else{
-            if(digit !== "0" || y !== ""){
+            if (y === "0"){
+                y = digit;
+            }
+            else{
                 y += digit;
             }
         }
@@ -89,25 +93,22 @@ function udpateNums(){
 
 //when a number is pressed update x the display to reflect that number when a opreator is pressed update the display to reflect y; temp for testing
 function updateDisplay(){
-    const display = document.querySelector("#display");
         if(opCounter === 0){
-            display.textContent = x;
+            display.textContent = x || "0";
     }
     else{
-        display.textContent = y;
+        display.textContent = y || "0";
     }
 }
 
 function clearInput(){
     if(opCounter === 1){
         y = "";
-        decimalCounterY = 0;
     }
     else if (opCounter == 0){
         x = "";
-        decimalCounterX = 0;
     }
-    display.textContent = 0;
+    updateDisplay();
 }
 
 function clearAll(){
@@ -115,20 +116,22 @@ function clearAll(){
     y = "";
     op = "";
     opCounter = 0;
-    decimalCounterX = 0;
-    decimalCounterY = 0;
     display.textContent = "0";
 }
 
 function decimalPt(){
-    if(opCounter === 1 && decimalCounterY === 0){
-        y += ".";
-        decimalCounterY = 1;
+    if (opCounter === 0 && !y.includes(".")){
+        x = x === "" ? "0." : x + ".";
     }
-    else if (opCounter === 0 && decimalCounterX === 0){
-        x += ".";
-        decimalCounterX = 1;
+    else if(opCounter === 1 && !x.includes(".")){
+        y = y === "" ? "0." : y + ".";
     }
+    updateDisplay();
+}
+
+function decimalUpdate(){
+    const decimalBtn = document.querySelector("#decimal");
+    decimalBtn.addEventListener("click",decimalPt);
 }
 
 function clearInputUpdate(){
@@ -147,7 +150,6 @@ function updateOperator(){
         }
 
         const selectedOpreator = e.target.id;
-
         if(selectedOpreator === "="){
             if(op !== "" && y !== ""){
                 x = String(opreate(Number(x),op,Number(y)));
@@ -162,6 +164,11 @@ function updateOperator(){
 
         else if(opCounter === 1 && y !== ""){
             x = String(opreate(Number(x),op,Number(y)));
+            if(x === "Error"){
+                clearAll();
+                display.textContent = "Error";
+                return;
+            }
             y = "";
             op = selectedOpreator;
             opCounter = 1;
@@ -177,6 +184,7 @@ function main(){
     udpateNums();
     updateOperator();
     clearInputUpdate();
+    decimalUpdate();
 }
 
 main();
