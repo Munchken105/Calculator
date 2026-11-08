@@ -1,4 +1,39 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.main-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #5c5c5c;
+    position: relative;
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+}
+
+.title{
+    margin: 0 0 0 0;
+}
+.github{
+    margin: 0 0 0;
+}
+
+.github a{
+    text-decoration: none;
+    color: cadetblue;
+}
+
 .calculator{
+    display: flex;
     background-color: #323232;
 }
 
